@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f0c29">
+<meta name="description" content="UP Board Class 10 Science aur Social Science MCQ practice app">
+<title>UP10 MCQ MASTER</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<!-- ============ FATAL ERROR SCREEN ============ -->
+<div id="screen-error" class="screen">
+  <div class="center-box">
+    <div class="error-icon">⚠️</div>
+    <h2 id="error-title">कुछ गड़बड़ हो गई</h2>
+    <p id="error-message" class="error-text">Question bank load nahi ho paya.</p>
+    <button id="btn-error-reload" class="btn btn-primary">🔄 दोबारा प्रयास करें</button>
+  </div>
+</div>
+
+<!-- ============ HOME SCREEN ============ -->
+<div id="screen-home" class="screen active">
+  <header class="app-header">
+    <h1 class="app-title">UP10 MCQ MASTER</h1>
+    <div class="app-badge">UP BOARD • CLASS 10</div>
+    <p class="app-subtitle">Science &amp; SST MCQ Practice</p>
+  </header>
+
+  <div id="install-banner" class="install-banner hidden">
+    <span>📲 App install karein - offline bhi chalega</span>
+    <button id="btn-install" class="btn btn-install-inline">Install</button>
+  </div>
+
+  <main class="home-main">
+    <div class="subject-cards">
+      <button class="subject-card card-science" data-subject="science" id="card-science">
+        <div class="subject-emoji">🔬</div>
+        <div class="subject-name">विज्ञान</div>
+        <div class="subject-count">140 MCQs</div>
+      </button>
+      <button class="subject-card card-sst" data-subject="sst" id="card-sst">
+        <div class="subject-emoji">🌍</div>
+        <div class="subject-name">सामाजिक विज्ञान</div>
+        <div class="subject-count">140 MCQs</div>
+      </button>
+    </div>
+
+    <div class="quick-links">
+      <button class="quick-link" id="btn-nav-history">
+        <span class="ql-icon">📊</span><span>Results</span>
+      </button>
+      <button class="quick-link" id="btn-nav-progress">
+        <span class="ql-icon">🏆</span><span>Progress</span>
+      </button>
+      <button class="quick-link" id="btn-nav-bookmarks">
+        <span class="ql-icon">🔖</span><span>Bookmarks</span>
+      </button>
+      <button class="quick-link" id="btn-nav-wrong">
+        <span class="ql-icon">❌</span><span>Wrong Practice</span>
+      </button>
+    </div>
+  </main>
+</div>
+
+<!-- ============ QUIZ SCREEN ============ -->
+<div id="screen-quiz" class="screen">
+  <header class="quiz-header">
+    <div class="quiz-top-row">
+      <span id="quiz-subject-label" class="quiz-subject-label">विज्ञान</span>
+      <span id="quiz-timer" class="quiz-timer">20:00</span>
+    </div>
+    <div class="progress-track">
+      <div id="quiz-progress-fill" class="progress-fill"></div>
+    </div>
+    <div class="quiz-top-row quiz-meta-row">
+      <span id="quiz-qnum" class="quiz-qnum">प्रश्न 1 / 140</span>
+      <button id="btn-bookmark" class="btn-bookmark" aria-label="Bookmark">🔖</button>
+    </div>
+  </header>
+
+  <main class="quiz-main">
+    <div id="quiz-chapter" class="quiz-chapter">अध्याय</div>
+    <h2 id="quiz-question" class="quiz-question">प्रश्न लोड हो रहा है...</h2>
+    <div id="quiz-options" class="quiz-options"></div>
+  </main>
+
+  <footer class="quiz-footer">
+    <button id="btn-prev" class="btn btn-ghost">← पिछला</button>
+    <button id="btn-skip" class="btn btn-ghost">छोड़ें</button>
+    <button id="btn-next" class="btn btn-primary">अगला →</button>
+  </footer>
+</div>
+
+<!-- ============ RESULT SCREEN ============ -->
+<div id="screen-result" class="screen">
+  <div class="center-box result-box">
+    <div class="result-emoji">🎉</div>
+    <h2 class="result-title">टेस्ट पूरा</h2>
+    <div class="result-score-circle">
+      <span id="result-percentage" class="result-percentage">0%</span>
+    </div>
+    <div id="result-score" class="result-score-text">0 / 0</div>
+
+    <div class="result-stats">
+      <div class="result-stat stat-correct">
+        <div class="stat-label">सही</div>
+        <div id="result-correct" class="stat-value">0</div>
+      </div>
+      <div class="result-stat stat-attempted">
+        <div class="stat-label">Attempted</div>
+        <div id="result-attempted" class="stat-value">0</div>
+      </div>
+      <div class="result-stat stat-wrong">
+        <div class="stat-label">गलत</div>
+        <div id="result-wrong" class="stat-value">0</div>
+      </div>
+    </div>
+
+    <div class="result-buttons">
+      <button id="btn-retry" class="btn btn-primary">🔄 फिर से टेस्ट</button>
+      <button id="btn-home-from-result" class="btn btn-ghost">🏠 Home</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HISTORY SCREEN ============ -->
+<div id="screen-history" class="screen">
+  <header class="sub-header">
+    <button class="btn-back" id="btn-back-history">←</button>
+    <h2>📊 Results</h2>
+  </header>
+  <main class="list-main">
+    <div id="history-list" class="item-list"></div>
+    <p id="history-empty" class="empty-msg hidden">अभी कोई परिणाम नहीं है।</p>
+    <button id="btn-clear-history" class="btn btn-danger full-width">इतिहास साफ करें</button>
+  </main>
+</div>
+
+<!-- ============ PROGRESS SCREEN ============ -->
+<div id="screen-progress" class="screen">
+  <header class="sub-header">
+    <button class="btn-back" id="btn-back-progress">←</button>
+    <h2>🏆 Progress</h2>
+  </header>
+  <main class="list-main">
+    <div class="progress-cards">
+      <div class="progress-card">
+        <div class="pc-icon">🏆</div>
+        <div class="pc-label">Best Score</div>
+        <div id="progress-best" class="pc-value">0%</div>
+      </div>
+      <div class="progress-card">
+        <div class="pc-icon">📈</div>
+        <div class="pc-label">Average Score</div>
+        <div id="progress-avg" class="pc-value">0%</div>
+      </div>
+      <div class="progress-card">
+        <div class="pc-icon">📝</div>
+        <div class="pc-label">Total Tests</div>
+        <div id="progress-total" class="pc-value">0</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ============ BOOKMARKS SCREEN ============ -->
+<div id="screen-bookmarks" class="screen">
+  <header class="sub-header">
+    <button class="btn-back" id="btn-back-bookmarks">←</button>
+    <h2>🔖 Bookmarks</h2>
+  </header>
+  <main class="list-main">
+    <div id="bookmarks-list" class="item-list"></div>
+    <p id="bookmarks-empty" class="empty-msg hidden">अभी कोई बुकमार्क नहीं है।</p>
+  </main>
+</div>
+
+<!-- ============ WRONG PRACTICE SCREEN ============ -->
+<div id="screen-wrong" class="screen">
+  <header class="sub-header">
+    <button class="btn-back" id="btn-back-wrong">←</button>
+    <h2>❌ Wrong Practice</h2>
+  </header>
+  <main class="list-main">
+    <div id="wrong-content" class="center-box">
+      <p id="wrong-empty" class="empty-msg hidden">अभी कोई गलत question नहीं है।</p>
+      <div id="wrong-summary" class="wrong-summary hidden">
+        <p id="wrong-count-text" class="wrong-count-text">0 गलत प्रश्न</p>
+        <button id="btn-start-wrong" class="btn btn-primary">▶️ अभ्यास शुरू करें</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="./questions.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
